@@ -1,24 +1,29 @@
 import 'dart:io';
 import 'planetary_system.dart';
+import 'planet.dart';
 
 class SpaceAdventure {
-  PlanetarySystem planetarySystem;
+  final PlanetarySystem planetarySystem;
 
   SpaceAdventure({this.planetarySystem});
 
   void start() {
     printGreeing();
     printIntroduction(getSomething('What is your name?'));
-    travel(
-      promptForRandomOrSpecific(
-        'Shall I randomly choose a planet for you?'
-      )
-    );
+    if (planetarySystem.hasPlanets) {
+      travel(
+        promptForRandomOrSpecific(
+          'Shall I randomly choose a planet for you?'
+        )
+      );
+    } else {
+      print("Oh no, your system has no planets to explore :( ");
+    }
   }
 
   void printGreeing() {
     print('Welcome to $planetarySystem!');
-    print('There are 8 planets to explore!');
+    print('There are ${planetarySystem.numberOfPlanets}  planets to explore!');
   }
 
   String getSomething(String request) {
@@ -45,20 +50,18 @@ class SpaceAdventure {
   }
 
   void travel(bool randomPlanet) {
+    Planet planet;
     if (randomPlanet){
-      travelToRandomPlanet();
+      planet = planetarySystem.randomPlanet();
     } else {
-      visitPlanet(getSomething('Name the planet you would like to visit.'));
+      planet = planetarySystem.planetWithName((getSomething('Name the planet you would like to visit.')));
     } 
+    visitPlanet(planet);
   }
 
-  void visitPlanet(String planet) {
-    print('Traveling to $planet');
-    print('Arriving at $planet.  A very cold planet furthest from the sun');
-  }
-
-  void travelToRandomPlanet() {
-    visitPlanet("Mercury");
+  void visitPlanet(Planet planet) {
+    print('Traveling to ${planet.name}');
+    print('Arriving at ${planet.name}.  ${planet.description}');
   }
 }
 
