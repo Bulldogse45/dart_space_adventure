@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:math';
+import 'package:dart_space_adventure/dart_space_adventure.dart';
+
 import 'planet.dart';
 
 class PlanetarySystem {
@@ -6,7 +9,17 @@ class PlanetarySystem {
   final List<Planet> planets;
   final Random _random = Random();
 
-  PlanetarySystem({this.name = "Unnamed System", this.planets = const[] });
+  PlanetarySystem({this.name = 'Unnamed System', this.planets = const[] });
+
+  PlanetarySystem.fromJson(Map<String, dynamic> json)
+    : name = json['name'],
+      planets = json['planets'].map<Planet> ( 
+        (p) => Planet(
+          name: p['name'], 
+          description: p['description'] 
+        )
+      ).toList();
+
   int get numberOfPlanets => this.planets.length;
   bool get hasPlanets => this.planets.isNotEmpty;
 
