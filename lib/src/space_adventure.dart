@@ -17,7 +17,7 @@ class SpaceAdventure {
         )
       );
     } else {
-      print("Oh no, your system has no planets to explore :( ");
+      print('Oh no, your system has no planets to explore :( ');
     }
   }
 
